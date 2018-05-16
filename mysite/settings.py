@@ -112,6 +112,8 @@ USE_I18N = True
 
 USE_L10N = True
 
+LOGIN_REDIRECT_URL='/'
+
 USE_TZ = True
 
 
