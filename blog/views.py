@@ -1,7 +1,8 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 from .models import Post,Comment
-from .forms import PostForm,CommentForm
+from .forms import PostForm,CommentForm,RegisterUser
 from django.utils import timezone
 
 # Create your views here.
@@ -88,3 +89,15 @@ def comment_remove(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
     comment.delete()
     return redirect('post_detail', pk=comment.post.pk)
+
+def signup(request):
+    if request.method=="POST":
+        form=RegisterUser(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+        else:
+            print(form.errors)
+    else:
+        form=RegisterUser()
+    return render(request,'registration/signup.html', {'form':form})
